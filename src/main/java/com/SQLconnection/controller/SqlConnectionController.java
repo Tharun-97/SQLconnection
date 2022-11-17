@@ -23,7 +23,7 @@ public class SqlConnectionController {
 	@GetMapping(value = "testAPI1")
 	public ResponseEntity<?> customerInformation() {
 
-		List<Customer> customers = dao.isData();
+		List<Customer> customers = dao.Read();
 		
 		return new ResponseEntity<>(customers,HttpStatus.OK);
 	}

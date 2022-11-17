@@ -17,7 +17,7 @@ public class SqlConnectionDAO {
 
 	static final String SQL = "select * from Customer";
 
-	public List<Customer> isData() {
+	public List<Customer> Read() {
 
 		List<Customer> customers = new ArrayList<Customer>();
 
