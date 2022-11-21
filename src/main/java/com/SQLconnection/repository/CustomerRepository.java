@@ -7,7 +7,7 @@ import com.SQLconnection.model.Customer;
 public interface CustomerRepository {
 	int save(Customer c);
 
-	int update(Customer c);
+	int update(int Cust_id,String Cust_name,String Country);
 
 	Customer findById(int id);
 

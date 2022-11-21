@@ -48,14 +48,9 @@ public class SqlConnectionDAO implements CustomerRepository {
 				new Object[] { c.getCustNo(), c.getCustName(), c.getCountry() });
 	}
 
-	
-	
-	
-	
 	@Override
-	public int update(Customer c) {
-		return jdbcTemplate.update("UPDATE Customer SET Cust_name=?, Country=?,  WHERE Cust_id=?",
-				new Object[] { c.getCustNo(), c.getCustName(), c.getCountry() });
+	public int update(int Cust_id,String Cust_name,String Country) {
+		return jdbcTemplate.update("UPDATE Customer SET Cust_name=?, Country=?,  WHERE Cust_id=?");
 	}
 
 	@Override
@@ -75,7 +70,6 @@ public class SqlConnectionDAO implements CustomerRepository {
 		return jdbcTemplate.update("DELETE FROM Customer WHERE Cust_id=?", id);
 	}
 
-	
 	@Override
 	public List<Customer> findByName(boolean Name) {
 		return jdbcTemplate.query("SELECT * from Customer WHERE Cust_name=?",
