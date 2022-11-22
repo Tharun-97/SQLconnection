@@ -94,15 +94,29 @@ public class SqlConnectionController {
 	}
 	
 	@GetMapping("findbyName/{name}")
-	public ResponseEntity<?> findbyId(@PathVariable("name") String name) {
-
-		Customer c = (Customer) dao.findByName(name);
-
+	public ResponseEntity<?> findbyName(@PathVariable("name") String name) {
+		
+		Customer c = dao.findByName(name);
+		
 		if (c != null) {
 			return new ResponseEntity<>(c, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+
+	}
+	
+	@GetMapping("findbyCountry/{country}")
+	public ResponseEntity<?> findbyCountry(@PathVariable("country") String country) {
+		
+		Customer c = dao.findByCountry(country);
+		
+		if (c != null) {
+			return new ResponseEntity<>(c, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
 	}
 
 }

@@ -11,9 +11,9 @@ public interface CustomerRepository {
 
 	Customer findById(int id);
 
-	List<Customer> findByName(String Name);
+	Customer findByName(String name);
 
-	List<Customer> findByCountry(String Country);
+	Customer findByCountry(String country);
 
 	List<Customer> findAll();
 

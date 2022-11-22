@@ -39,18 +39,22 @@ public class SqlConnectionDAO implements CustomerRepository {
 
 	@Override
 	public List<Customer> findAll() {
+		
 		return jdbcTemplate.query("SELECT * from Customer", BeanPropertyRowMapper.newInstance(Customer.class));
 	}
 
 	@Override
 	public int save(Customer c) {
+		
 		return jdbcTemplate.update("INSERT INTO Customer (Cust_id,Cust_name,Country) VALUES(?,?,?)",
 				new Object[] { c.getCustNo(), c.getCustName(), c.getCountry() });
 	}
 
 	@Override
 	public int update(int id, Customer c) {
+		
 		String sql = "UPDATE Customer SET Cust_name=?, Country=? WHERE Cust_id=?";
+		
 		return jdbcTemplate.update("UPDATE Customer SET Cust_name=?, Country=? WHERE Cust_id=?",
 				new Object[] { c.getCustName(), c.getCountry(), id });
 	}
@@ -66,26 +70,32 @@ public class SqlConnectionDAO implements CustomerRepository {
 	}
 
 	@Override
+	public Customer findByName(String name) {
+		
+		Customer c = jdbcTemplate.queryForObject("SELECT * from Customer WHERE Cust_name=?",
+				BeanPropertyRowMapper.newInstance(Customer.class), name);
+		
+		return c;
+	}
+
+	@Override
+	public Customer findByCountry(String Country) {
+		
+		Customer c = jdbcTemplate.queryForObject("SELECT * from Customer WHERE Country=?",
+				BeanPropertyRowMapper.newInstance(Customer.class), Country);
+		
+		return c;
+
+	}
+
+	@Override
 	public int deleteById(int id) {
 		return jdbcTemplate.update("DELETE FROM Customer WHERE Cust_id=?", id);
-	}
-
-	@Override
-	public List<Customer> findByName(String Name) {
-		return jdbcTemplate.query("SELECT * from Customer WHERE Cust_name=?",
-				BeanPropertyRowMapper.newInstance(Customer.class), Name);
-	}
-
-	@Override
-	public List<Customer> findByCountry(String Country) {
-		String q = "SELECT * from Customer WHERE title LIKE '%" + Country + "%'";
-		return jdbcTemplate.query(q, BeanPropertyRowMapper.newInstance(Customer.class));
 	}
 
 	@Override
 	public int deleteAll() {
 		return jdbcTemplate.update("DELETE from Customer");
 	}
-
 
 }
