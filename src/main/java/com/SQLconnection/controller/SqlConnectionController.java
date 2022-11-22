@@ -25,7 +25,7 @@ public class SqlConnectionController {
 	@Autowired
 	SqlConnectionDAO dao;
 
-	@GetMapping(value = "testAPI1")
+	@GetMapping(value = "view")
 	public ResponseEntity<?> customerInformation() {
 
 		List<Customer> customers = dao.Read();
@@ -33,7 +33,7 @@ public class SqlConnectionController {
 		return new ResponseEntity<>(customers, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "view")
+	@GetMapping(value = "viewall")
 	public ResponseEntity<?> findAll() {
 
 		List<Customer> customers = dao.findAll();
@@ -70,14 +70,39 @@ public class SqlConnectionController {
 
 	}
 
-	@GetMapping(value = "update/{id}/{name}/{country}")
-	public ResponseEntity<?> update(@PathVariable("id") int Cust_id, @PathVariable("name") String Cust_name,
-			@PathVariable("country") String Country) {
+	@GetMapping("update")
+	public ResponseEntity<?> updatebyId(@RequestParam Map<String, String> update) {
 
-		dao.update(Cust_id, Cust_name, Country);
+		Customer c = new Customer(Integer.parseInt(update.get("id")), update.get("name"), update.get("country"));
 
-		return null;
+		dao.update(c.getCustNo(), c);
 
+		return new ResponseEntity<>("The Details updated successfully", HttpStatus.OK);
+	}
+
+	@GetMapping("findbyID/{id}")
+	public ResponseEntity<?> findbyId(@PathVariable("id") int id) {
+
+		Customer c = dao.findById(id);
+
+		if (c != null) {
+			return new ResponseEntity<>(c, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+
+	}
+	
+	@GetMapping("findbyName/{name}")
+	public ResponseEntity<?> findbyId(@PathVariable("name") String name) {
+
+		Customer c = (Customer) dao.findByName(name);
+
+		if (c != null) {
+			return new ResponseEntity<>(c, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 
 }

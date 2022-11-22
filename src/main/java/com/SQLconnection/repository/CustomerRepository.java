@@ -7,17 +7,17 @@ import com.SQLconnection.model.Customer;
 public interface CustomerRepository {
 	int save(Customer c);
 
-	int update(int Cust_id,String Cust_name,String Country);
+	int update(int id, Customer c);
 
 	Customer findById(int id);
 
-	int deleteById(int id);
+	List<Customer> findByName(String Name);
+
+	List<Customer> findByCountry(String Country);
 
 	List<Customer> findAll();
 
-	List<Customer> findByName(boolean Name);
-
-	List<Customer> findByCountry(String Country);
+	int deleteById(int id);
 
 	int deleteAll();
 }

@@ -49,20 +49,20 @@ public class SqlConnectionDAO implements CustomerRepository {
 	}
 
 	@Override
-	public int update(int Cust_id,String Cust_name,String Country) {
-		return jdbcTemplate.update("UPDATE Customer SET Cust_name=?, Country=?,  WHERE Cust_id=?");
+	public int update(int id, Customer c) {
+		String sql = "UPDATE Customer SET Cust_name=?, Country=? WHERE Cust_id=?";
+		return jdbcTemplate.update("UPDATE Customer SET Cust_name=?, Country=? WHERE Cust_id=?",
+				new Object[] { c.getCustName(), c.getCountry(), id });
 	}
 
 	@Override
 	public Customer findById(int id) {
-		try {
-			Customer c = jdbcTemplate.queryForObject("select * from Customer WHERE Cust_id=?",
-					BeanPropertyRowMapper.newInstance(Customer.class), id);
 
-			return c;
-		} catch (IncorrectResultSizeDataAccessException e) {
-			return null;
-		}
+		Customer c = jdbcTemplate.queryForObject("select * from Customer WHERE Cust_id=?",
+				BeanPropertyRowMapper.newInstance(Customer.class), id);
+
+		return c;
+
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class SqlConnectionDAO implements CustomerRepository {
 	}
 
 	@Override
-	public List<Customer> findByName(boolean Name) {
+	public List<Customer> findByName(String Name) {
 		return jdbcTemplate.query("SELECT * from Customer WHERE Cust_name=?",
 				BeanPropertyRowMapper.newInstance(Customer.class), Name);
 	}
@@ -86,5 +86,6 @@ public class SqlConnectionDAO implements CustomerRepository {
 	public int deleteAll() {
 		return jdbcTemplate.update("DELETE from Customer");
 	}
+
 
 }
